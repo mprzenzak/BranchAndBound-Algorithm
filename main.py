@@ -44,7 +44,6 @@ def ignore_routes(graph, start_node, end_node, path):
 
 
 def explore_graph_level(data, initial_cost, start_node, nodes_to_visit, path, should_count_path_to_start_node):
-    graph, cost = optimize_graph(data)
     costs_list = []
     graphs_copies = []
 
@@ -54,8 +53,8 @@ def explore_graph_level(data, initial_cost, start_node, nodes_to_visit, path, sh
         copy_of_graph, cost_of_graph = optimize_graph(copy_of_graph)
 
         current_cost = initial_cost + cost_of_graph
-        if graph[start_node][node] != -1:
-            current_cost += graph[start_node][node]
+        if data[start_node][node] != -1:
+            current_cost += data[start_node][node]
 
         costs_list.append(current_cost)
         graphs_copies.append(copy_of_graph)
@@ -158,8 +157,6 @@ def test_algorithm(configuration):
         testing_case_data = configuration[testing_case].split()
         file_name = testing_case_data[0]
         number_of_tests = int(testing_case_data[1])
-        min_path_weight = int(testing_case_data[2])
-        min_path = list(map(int, configuration[testing_case].split("[")[1].split(']')[0].split()))
 
         if file_name == "tsp_6_1.txt" or file_name == "tsp_6_2.txt":
             for test in range(number_of_tests):
@@ -169,16 +166,8 @@ def test_algorithm(configuration):
 
                     optimized_graph, cost_of_graph = optimize_graph(load_graph("TestData/" + file_name))
                     counted_min_path_weight, counted_path = find_path(optimized_graph, cost_of_graph)
-                    if counted_min_path_weight == min_path_weight:
-                        print("Good job, that's right.")
-                    else:
-                        # print("The algorithm is wrong. Check the minimal path weight.")
-                        pass
 
-                    if counted_path == min_path:
-                        print("Good job, that's right.")
-                    else:
-                        print("The algorithm is wrong. Check the minimal path")
+                    print("Analyzing " + file_name + "...")
                     print("Counted path:")
                     print(counted_path)
                     print("Counted cost:")
@@ -196,15 +185,7 @@ def test_algorithm(configuration):
                 optimized_graph, cost_of_graph = optimize_graph(load_graph("TestData/" + file_name))
                 counted_min_path_weight, counted_path = find_path(optimized_graph, cost_of_graph)
 
-                if counted_min_path_weight == min_path_weight:
-                    print("Good job, that's right.")
-                else:
-                    print("The algorithm is wrong. Check the minimal path weight.")
-
-                if counted_path == min_path:
-                    print("Good job, that's right.")
-                else:
-                    print("The algorithm is wrong. Check the minimal path")
+                print("Analyzing " + file_name + "...")
                 print("Counted path:")
                 print(counted_path)
                 print("Counted cost:")
